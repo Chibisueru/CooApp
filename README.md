@@ -1,36 +1,71 @@
-# CooApp
+# CooApp (unofficial Android client for CooSpace)
 
-An unofficial Material You Android app for SZTE CooSpace ([unics.szte.hu](https://unics.szte.hu/)).
+Material You (Material 3 + dynamic color) client for SZTE's CooSpace 5.
 
-A native Material 3 interface built around the real CooSpace site:
+> **Note:** CooApp is built for SZTE (University of Szeged, https://unics.szte.hu/). You can change
+> the server address in Settings, but the page styling and sign-in detection were written with SZTE's
+> CooSpace in mind, so other instances may look or behave a bit off.
 
-- **Material You:** colours come from your wallpaper (Android 12+), with light / dark / system theme and a themed launcher icon
-- **Home:** pinned courses and pages, plus recently visited pages
-- **CooSpace tab:** the site itself, with back gesture, refresh, pin, share and open-in-browser
-- **Restyled pages:** CooSpace pages use your Material colours, with a proper dark mode (can be turned off)
-- **Files:** downloads go to `Downloads/CooSpace/`, and assignment uploads use the system file picker
-- **Links:** CooSpace links from other apps open in the app
-- **Languages:** English and Hungarian
+This is an unofficial app. It is not made by or affiliated with the University of Szeged or the makers of CooSpace.
 
-> Not affiliated with or endorsed by the University of Szeged. You only ever type your password
-> into the real CooSpace sign-in page, and the app never stores it.
+## Install
+
+Download the latest `CooApp-X.Y.Z.apk` from the [Releases](https://github.com/Chibisueru/CooApp/releases)
+page and open it on your phone (allow installing from unknown sources when asked). Or with adb:
+
+    adb install -r CooApp-1.0.0.apk
+
+Requires Android 10 or newer. Dynamic (wallpaper) colours need Android 12 or newer.
+
+## Features
+
+- **Sign in** on the real CooSpace / SZTE sign-in page inside the app. The session is remembered, and the app never sees or stores your password.
+- **Home:** pinned courses and pages, recently visited pages, and an "Open CooSpace" card that hides once you're signed in
+- **CooSpace:** the full site in an in-app WebView, with back gesture, refresh, pin, share and open in browser
+- **Restyled pages:** CooSpace pages use your Material colours, rounded inputs and buttons, and a proper dark mode
+- **Files:** downloads go to `Downloads/CooSpace/` with a notification, and assignment uploads use the system file picker
+- **Links:** CooSpace links from other apps open in CooApp
+- **Settings:** light / dark / system theme, dynamic colour, page restyling on/off, page text size, server address, sign out
+- **Languages:** English and Hungarian, plus a themed (monochrome) launcher icon
 
 ## Build
 
-Requires the Android SDK (compileSdk 37.2) and JDK 17+.
+    ./gradlew assembleDebug      # app/build/outputs/apk/debug/app-debug.apk
+    ./gradlew installDebug       # to a connected phone (USB debugging on)
+    ./gradlew assembleRelease    # app/build/outputs/apk/release/app-release.apk
 
-    ./gradlew assembleRelease
-    adb install -r app/build/outputs/apk/release/app-release.apk
+Needs the Android SDK (compileSdk 37.2) and JDK 17+. Release builds are currently signed with the
+debug key, so anyone can build an installable APK. Releases signed with a different key will need
+an uninstall first.
 
-The release build is signed with the debug key for convenience. Set up your own signing config
-before distributing it.
+## How it talks to CooSpace
+
+CooSpace has no public API, so CooApp doesn't scrape or call one. It's a native Material 3 shell
+around the real website. The site runs in a WebView that keeps its own cookies, so signing in,
+uploads and everything else work exactly as in a browser.
+
+Two scripts are injected into each CooSpace page (`web/PageStyle.kt`):
+
+- **Material stylesheet:** maps the current colour scheme onto links, form buttons, inputs and
+  tables. Selectors are kept generic so they survive markup changes.
+- **Dark-mode recolouring:** reads each element's real background colour and swaps light
+  backgrounds for the matching M3 surface tone. Floating panels like the sidebar get a higher tone,
+  and semi-transparent layers (such as the dimming behind the sidebar) keep their transparency. A
+  MutationObserver handles content the site adds later. Turning restyling off restores the original look.
+
+Sign-in state is guessed from the loaded page (`web/CooWebController.kt`). A logout link means
+signed in, and a visible password field means signed out.
+
+If a page looks wrong, turn off **Settings → Restyle CooSpace pages** to check whether the styling is
+the cause. Then adjust the matching rule in `web/PageStyle.kt`, or open an issue with a screenshot
+and the element's HTML.
 
 ## Code map
 
 | Path | What it does |
 | --- | --- |
-| `web/CooWebController.kt` | WebView, session cookies, sign-in detection, downloads, uploads, external links |
-| `web/PageStyle.kt` | Material CSS and the dark-mode recolouring script injected into CooSpace pages |
+| `web/CooWebController.kt` | WebView, cookies, sign-in detection, downloads, uploads, external links |
+| `web/PageStyle.kt` | Material CSS and the dark-mode recolouring script |
 | `ui/screens/` | Home, CooSpace (browse) and Settings screens |
 | `ui/theme/Theme.kt` | Dynamic colour and fallback palettes |
 | `data/AppSettings.kt` | Settings, pins and recent pages (SharedPreferences) |
