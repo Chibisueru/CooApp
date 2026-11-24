@@ -13,8 +13,8 @@ android {
         applicationId = "app.coospace.client"
         minSdk = 29
         targetSdk = 37
-        versionCode = 3
-        versionName = "1.0.2-alpha"
+        versionCode = 4
+        versionName = "1.0.2"
     }
 
     buildTypes {
