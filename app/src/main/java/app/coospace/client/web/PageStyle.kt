@@ -38,6 +38,13 @@ private fun buildPageCss(c: ColorScheme, dark: Boolean): String = """
         border: 1px solid ${c.outline.hex()} !important; border-radius: 12px !important;
         padding: 8px 12px !important; font-size: 16px !important;
     }
+    label, legend { color: ${c.onSurface.hex()} !important; }
+    input::placeholder, textarea::placeholder { color: ${c.onSurfaceVariant.hex()} !important; opacity: 1 !important; }
+    input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:focus {
+        -webkit-box-shadow: 0 0 0 1000px ${c.surfaceContainerHighest.hex()} inset !important;
+        -webkit-text-fill-color: ${c.onSurface.hex()} !important;
+        caret-color: ${c.onSurface.hex()};
+    }
     input:focus, textarea:focus, select:focus { outline: 2px solid ${c.primary.hex()} !important; border-color: transparent !important; }
     input[type=checkbox], input[type=radio] { accent-color: ${c.primary.hex()}; }
     hr { border: none !important; border-top: 1px solid ${c.outlineVariant.hex()} !important; }
@@ -95,10 +102,12 @@ private val ENGINE_JS = """
       ops.push(['background-color', raised ? c.containerHigh : c.container]);
     }
     if (hasGrad) ops.push(['background-image', 'none']);
+    // Anything below ~4.5:1 contrast on a dark surface gets recoloured: near-black text -> onSurface,
+    // mid-grey secondary text (labels, hints) -> onSurfaceVariant, links -> primary.
     var fg = parse(cs.color);
-    if (fg && lum(fg) < 0.3) {
+    if (fg && lum(fg) < 0.35) {
       var link = el.tagName === 'A' || (el.closest && el.closest('a'));
-      ops.push(['color', link ? c.primary : (onBg || c.onSurface)]);
+      ops.push(['color', link ? c.primary : (onBg || (lum(fg) < 0.1 ? c.onSurface : c.onSurfaceVariant))]);
     } else if (onBg) ops.push(['color', onBg]);
     var bw = parseFloat(cs.borderTopWidth) + parseFloat(cs.borderRightWidth) + parseFloat(cs.borderBottomWidth) + parseFloat(cs.borderLeftWidth);
     if (bw > 0) { var bc = parse(cs.borderTopColor); if (bc && lum(bc) > 0.4) ops.push(['border-color', c.outlineVariant]); }
@@ -151,6 +160,7 @@ fun pageStyleJs(c: ColorScheme, dark: Boolean, enabled: Boolean): String {
         .put("key", css.hashCode().toString())
         .put("surface", c.surface.hex())
         .put("onSurface", c.onSurface.hex())
+        .put("onSurfaceVariant", c.onSurfaceVariant.hex())
         .put("primary", c.primary.hex())
         .put("containerLow", c.surfaceContainerLow.hex())
         .put("container", c.surfaceContainer.hex())
