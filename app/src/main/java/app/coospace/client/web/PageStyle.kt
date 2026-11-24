@@ -32,11 +32,14 @@ private fun buildPageCss(c: ColorScheme, dark: Boolean): String = """
         border-radius: 20px !important; padding: 6px 16px !important; margin: 4px !important;
         font-weight: 500 !important; box-shadow: none !important;
     }
+    /* Only colours here: no background, padding, border width or font size, because CooSpace's
+       sign-in form shows its labels through transparent inputs and relies on their exact layout.
+       In dark mode, inputs that do have a solid light background are recoloured by the script. */
     input[type=text], input[type=password], input[type=email], input[type=search],
     input[type=number], input[type=date], input[type=datetime-local], input[type=url], textarea, select {
-        background: ${c.surfaceContainerHighest.hex()} !important; color: ${c.onSurface.hex()} !important;
-        border: 1px solid ${c.outline.hex()} !important; border-radius: 12px !important;
-        padding: 8px 12px !important; font-size: 16px !important;
+        color: ${c.onSurface.hex()} !important;
+        border-color: ${c.outline.hex()} !important;
+        caret-color: ${c.primary.hex()};
     }
     label, legend { color: ${c.onSurface.hex()} !important; }
     input::placeholder, textarea::placeholder { color: ${c.onSurfaceVariant.hex()} !important; opacity: 1 !important; }
@@ -65,7 +68,7 @@ private val ENGINE_JS = """
   if (window.__m3) return;
   var M = { cfg: null, queue: [], scheduled: false };
   var SKIP = {IMG:1,VIDEO:1,CANVAS:1,IFRAME:1,PICTURE:1,SCRIPT:1,STYLE:1,LINK:1,META:1,HEAD:1,TITLE:1,NOSCRIPT:1,BR:1,OPTION:1};
-  var OWN = 'input, textarea, select, $ACTION_BUTTONS';
+  var OWN = '$ACTION_BUTTONS';
   function parse(s){ var m = s && s.match(/rgba?\(([^)]+)\)/); if(!m) return null;
     var p = m[1].split(/[\s,\/]+/).filter(Boolean).map(parseFloat);
     return {r:p[0], g:p[1], b:p[2], a: p.length > 3 ? p[3] : 1}; }
