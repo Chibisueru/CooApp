@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<data-extraction-rules>
+    <!-- Never back up the CooSpace session (cookies / WebView storage). -->
+    <cloud-backup>
+        <include domain="sharedpref" path="settings.xml" />
+    </cloud-backup>
+    <device-transfer>
+        <include domain="sharedpref" path="settings.xml" />
+    </device-transfer>
+</data-extraction-rules>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="nav_home">Kezdőlap</string>
+    <string name="nav_browse">CooSpace</string>
+    <string name="nav_settings">Beállítások</string>
+
+    <string name="greeting_morning">Jó reggelt</string>
+    <string name="greeting_afternoon">Szép napot</string>
+    <string name="greeting_evening">Jó estét</string>
+    <string name="home_subtitle">Az SZTE kurzusaid, Material You stílusban.</string>
+    <string name="open_coospace">CooSpace megnyitása</string>
+    <string name="open_coospace_desc">Elég egyszer bejelentkezni – a munkamenet megmarad.</string>
+    <string name="pinned">Kitűzött</string>
+    <string name="pinned_empty">A CooSpace fülön a gombostű gombbal tűzz ki egy színteret vagy oldalt, és itt fog megjelenni.</string>
+    <string name="recent">Legutóbb megnyitott</string>
+    <string name="clear">Törlés</string>
+    <string name="unpin">Kitűzés törlése</string>
+
+    <string name="back">Vissza</string>
+    <string name="refresh">Frissítés</string>
+    <string name="pin_page">Oldal kitűzése</string>
+    <string name="unpin_page">Kitűzés törlése</string>
+    <string name="more">Továbbiak</string>
+    <string name="open_in_browser">Megnyitás böngészőben</string>
+    <string name="share_link">Link megosztása</string>
+    <string name="go_home">CooSpace kezdőoldal</string>
+    <string name="pinned_toast">Kitűzve a Kezdőlapra</string>
+    <string name="unpinned_toast">Eltávolítva a Kezdőlapról</string>
+    <string name="download_started">Letöltés: %1$s</string>
+    <string name="error_title">A CooSpace nem érhető el</string>
+    <string name="error_body">Ellenőrizd a kapcsolatot, majd próbáld újra.</string>
+    <string name="retry">Újra</string>
+    <string name="loading">Betöltés…</string>
+
+    <string name="settings_appearance">Megjelenés</string>
+    <string name="settings_theme">Téma</string>
+    <string name="theme_system">Rendszer</string>
+    <string name="theme_light">Világos</string>
+    <string name="theme_dark">Sötét</string>
+    <string name="settings_dynamic">Dinamikus színek</string>
+    <string name="settings_dynamic_desc">A háttérkép színeinek használata</string>
+    <string name="settings_dynamic_unavailable">Android 12 vagy újabb szükséges</string>
+    <string name="settings_restyle">CooSpace oldalak átszínezése</string>
+    <string name="settings_restyle_desc">Material színek, lekerekített kártyák és sötét mód a weboldalon</string>
+    <string name="settings_text_size">Oldal betűmérete</string>
+    <string name="settings_account">Fiók</string>
+    <string name="settings_server">CooSpace címe</string>
+    <string name="settings_signout">Kijelentkezés</string>
+    <string name="settings_signout_desc">Törli a sütiket és a mentett oldaladatokat ezen az eszközön</string>
+    <string name="signout_confirm_title">Kijelentkezel a CooSpace-ből?</string>
+    <string name="signout_confirm_body">Legközelebb újra be kell jelentkezned.</string>
+    <string name="cancel">Mégse</string>
+    <string name="signed_out">Kijelentkezve</string>
+    <string name="settings_about">Névjegy</string>
+    <string name="about_body">Nem hivatalos kliens a Szegedi Tudományegyetem CooSpace rendszeréhez. Nem az SZTE terméke, és az SZTE nem támogatja. A jelszavadat mindig csak a valódi CooSpace bejelentkezési oldalon adod meg, az alkalmazás nem tárolja.</string>
+    <string name="save">Mentés</string>
+</resources>
